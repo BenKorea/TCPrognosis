@@ -16,12 +16,21 @@ input_error_checking_mode<-"Y"
 
 ```
 
-```{r source_my_functions, warning=FALSE, message=FALSE}
 
-# 외부파일에 함수를 정의함으로써 코드의 가독성을 높이고자 하였음
-source("C:/R/Projects/R-4.4.0-Thyroid_Cancer_Prognosis/manuscripts/my_functions.R")
+```{r}
+#| label: Source-scripts
+ 
+source_directory<-"source"
+source_filename<-"my_functions.R"
 
+project_path <<- getwd()
+source_path <<- file.path(project_path, source_directory)
+source_path_filename <- file.path(source_path, source_filename)
+source(source_path_filename)
+
+rm(source_directory, source_filename, project_path, source_path, source_path_filename)
 ```
+
 
 ```{r load_packages, warning=FALSE, message=FALSE}
 
@@ -65,21 +74,20 @@ load_raw_data <- function(folder_path, pattern) {
   return(data)
 }
 
+raw_data_directory<-"raw_data"
 
-folder_path <- "C:/R/Projects/R-4.4.0-Thyroid_Cancer_Prognosis/manuscripts/raw_data/"
+project_path <<- getwd()
+raw_data_path <<- file.path(project_path, raw_data_directory)
 pattern <- "관심환자.*"
-raw_data <- load_raw_data(folder_path, pattern)
+raw_data <- load_raw_data(raw_data_path, pattern)
 
 ```
-
 
 ```{r deidentify_PatientID, warning=FALSE, message=FALSE}
 
 deidentified_PatientID_data<-my_deidentify_PatientID(raw_data, "등록번호")
 
 ```
-
-
 
 ```{r parsing_birthday_data, warning=FALSE, message=FALSE}
 
@@ -92,7 +100,7 @@ birthday_data <- my_parsing_birthday_data (deidentified_PatientID_data)
 
 ```{r parsing_risk_data, warning=FALSE, message=FALSE}
 
-source("C:/R/Projects/R-4.4.0-Thyroid_Cancer_Prognosis/manuscripts/my_functions.R")
+source("C:/R/Projects/R-4.4.1-BenKorea_TCPrognosis/source/my_functions.R")
 risk_data <- my_parsing_risk_data (deidentified_PatientID_data)
 
 ```
@@ -174,7 +182,6 @@ setnames(rai_data, "분류명", "RAI")
 
 ```
 
-
 ## **Abstract**
 
 ## **Introduction**
@@ -192,6 +199,7 @@ This study retrospectively analyzed the clinical and follow up data of PTC patie
 수술 후 병리보고에서 PTC와 FTC가 동시에 발견되는 등 synchronous double primary thyroid cancer는 에후가 더 나쁠 것으로 판단되는 histology를 분석에 포함하였다. 우리기관에서는 2017년 이후 NIFTP를 berderline tumor로 분류해오고 있으며, 이 분석에서는 제외하였다.
 
 ### Multiplicity
+
 단일병소와 다발성 병소를 구분하였다. synchronous double primary thyroid cancer는 다발성 병소로 간주하였다.
 
 ### Bilaterality
